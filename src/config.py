@@ -1,6 +1,6 @@
 
 config = {
-    'stop_words_path': '../resources/stopwords-en.txt',
+    'stop_words_path': '../resources/stopwords.txt',
     'posts_path': '../data/tagged_posts.tsv',
     'dialogues_path': '../data/dialogues.tsv',
     'intent_vec_path': '../resources/intent_vectorizer.pkl',

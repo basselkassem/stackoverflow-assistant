@@ -1,10 +1,12 @@
 import os
 import requests
 
-os.system('mkdir data')
-os.system('mkdir resources')
+DATA_DIR = 'data'
+RESOURCES_DIR = 'resources'
+STOP_WORDS_PATH = os.path.join(RESOURCES_DIR, 'stopwords.txt')
 
 REPOSITORY_PATH = "https://github.com/hse-aml/natural-language-processing"
+STOPWORDS_URL = "https://gist.githubusercontent.com/sebleier/554280/raw/7e0e4a1ce04c2bb7bd41089c9821dbcf6d0c786c/NLTK's%2520list%2520of%2520english%2520stopwords"
 
 
 def download_file(url, file_path):
@@ -30,18 +32,26 @@ def download_from_github(version, fn, target_dir, force=False):
         return
     download_file(url, file_path)
 
+
 def sequential_downloader(version, fns, target_dir, force=False):
     os.makedirs(target_dir, exist_ok=True)
     for fn in fns:
         download_from_github(version, fn, target_dir, force=force)
 
+
 def download_project_resources(force=False):
+    os.makedirs(DATA_DIR, exist_ok=True)
+    os.makedirs(RESOURCES_DIR, exist_ok=True)
     sequential_downloader(
         "project",
         [
             "dialogues.tsv",
             "tagged_posts.tsv",
         ],
-        "data",
+        DATA_DIR,
         force=force
     )
+    download_file(STOPWORDS_URL, STOP_WORDS_PATH)
+
+
+download_project_resources(force=False)
