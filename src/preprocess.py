@@ -38,9 +38,10 @@ class Preprocessor(object):
     def get_tf_idf(self, texts, dump_vec = True):
         tf_idf_vec = TfidfVectorizer(
             texts,
-            ngram_range = (1, 3),
+            ngram_range = (1, 2),
             max_df = 0.9,
             min_df = 0.005,
+            max_features = 32*1000,
         )
         res = tf_idf_vec.fit_transform(texts)
         if dump_vec:
