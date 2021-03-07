@@ -1,8 +1,10 @@
+#%%
 import os
 import requests
 
 DATA_DIR = 'data'
 RESOURCES_DIR = 'resources'
+MODELS_DIR = 'models'
 STOP_WORDS_PATH = os.path.join(RESOURCES_DIR, 'stopwords.txt')
 
 REPOSITORY_PATH = "https://github.com/hse-aml/natural-language-processing"
@@ -42,6 +44,9 @@ def sequential_downloader(version, fns, target_dir, force=False):
 def download_project_resources(force=False):
     os.makedirs(DATA_DIR, exist_ok=True)
     os.makedirs(RESOURCES_DIR, exist_ok=True)
+    os.makedirs(MODELS_DIR, exist_ok=True)
+
+    download_file(STOPWORDS_URL, STOP_WORDS_PATH)
     sequential_downloader(
         "project",
         [
@@ -51,7 +56,6 @@ def download_project_resources(force=False):
         DATA_DIR,
         force=force
     )
-    download_file(STOPWORDS_URL, STOP_WORDS_PATH)
-
 
 download_project_resources(force=False)
+# %%
