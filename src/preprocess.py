@@ -35,7 +35,7 @@ class Preprocessor(object):
     def preprocess_txts(self, texts, remove_stopwords = True):
        return [self.preprocess_txt(txt) for txt in texts]
     
-    def get_tf_idf(self, texts, dump_vec = True):
+    def get_tf_idf(self, texts, vectorizer_path):
         tf_idf_vec = TfidfVectorizer(
             texts,
             ngram_range = (1, 2),
@@ -44,8 +44,7 @@ class Preprocessor(object):
             max_features = 32*1000,
         )
         res = tf_idf_vec.fit_transform(texts)
-        if dump_vec:
-            IOHandler.serialize(tf_idf_vec, config['intent_vec_path'])
-        return res, tf_idf_vec
+        IOHandler.serialize(tf_idf_vec, vectorizer_path)
+        return res
 
 # %%

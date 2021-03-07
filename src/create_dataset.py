@@ -6,7 +6,7 @@ import numpy as np
 
 preprocessor = Preprocessor()
 
-def create_intent_tfidf(size = 40000):
+def create_intent_tfidf_ds(size = 40000):
     stackoverflow_posts = IOHandler.read_txt_as_df(config['posts_path'])
     dialouge_posts = IOHandler.read_txt_as_df(config['dialogues_path'])
 
@@ -35,9 +35,22 @@ def create_intent_tfidf(size = 40000):
     intent_target = intent_target[index]
     
 
-    intent_X, vectorizer = preprocessor.get_tf_idf(list(intent_txts), dump_vec = True)
+    intent_X = preprocessor.get_tf_idf(list(intent_txts), config['intent_vec_path'])
     dataset = {'X': intent_X, 'y': intent_target}
     IOHandler.serialize(dataset, config['intent_tfidf_dataset'])
 
-create_intent_tfidf(size = 40000)
+def create_topic_tfidf_ds(size = 40000):
+    stackoverflow_posts = IOHandler.read_txt_as_df(config['posts_path'])
+    stackoverflow_posts = preprocessor.remove_duplicates(stackoverflow_posts, cols = ['title'])
+
+    stackoverflow_posts = stackoverflow_posts.sample(size)
+
+    IOHandler.serialize(stackoverflow_posts['post_id'].values, config['post_id_ds'])
+    stackoverflow_txts = stackoverflow_posts['title'].values
+    stackoverflow_txts = preprocessor.preprocess_txts(stackoverflow_txts)
+    y = stackoverflow_posts['tag'].values
+
+    X = preprocessor.get_tf_idf(stackoverflow_txts, config['topic_vec_path'])
+    IOHandler.serialize({'X': X, 'y': y }, config['topic_tfidf_dataset'])
+
 #%%

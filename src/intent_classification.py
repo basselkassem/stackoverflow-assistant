@@ -4,6 +4,7 @@ from sklearn.model_selection import train_test_split
 from io_handler import IOHandler
 from sklearn.metrics import classification_report
 from config import config
+from create_dataset import create_intent_tfidf_ds
 
 class IntentClassifier(object):
     def __init__(self, cls_name):
@@ -34,6 +35,7 @@ class IntentClassifier(object):
             self.model, config['intent_lg_cls']
         )
 
+create_intent_tfidf_ds(size = 40000)
 intent_cls = IntentClassifier('lg')
 intent_cls.train()
 intent_cls.test()
