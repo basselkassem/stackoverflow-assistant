@@ -13,7 +13,9 @@ class TopicClassifier(object):
     def __init__(self):
         super().__init__()
         self.model = OneVsRestClassifier(
-            LogisticRegression()
+            LogisticRegression(
+                max_iter = 200,
+            )
         )
         self.load_data()
         

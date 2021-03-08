@@ -39,9 +39,9 @@ class Preprocessor(object):
         tf_idf_vec = TfidfVectorizer(
             texts,
             ngram_range = (1, 2),
-            max_df = 0.9,
-            min_df = 0.005,
-            max_features = 32*1000,
+            max_df = 1.0,
+            min_df = 0.0,
+            #max_features = 32*100,
         )
         res = tf_idf_vec.fit_transform(texts)
         IOHandler.serialize(tf_idf_vec, vectorizer_path)
